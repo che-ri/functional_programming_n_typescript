@@ -34,20 +34,25 @@ const cart: Array<Item> = [
 
 const list = () => {
     let html = "<ul>";
-    let totalCount = 0;
-    let totalPrice = 0;
-
     for (let i = 0; i < cart.length; i++) {
         html += "<li>";
         html += `<h2>${cart[i].name}</h2>`;
         html += `<div>가격: ${cart[i].price}원</div>`;
         html += `<div>수량: ${cart[i].quantity}상자</div>`;
         html += "</li>";
-        totalCount += cart[i].quantity;
-        totalPrice += cart[i].quantity * cart[i].price;
     }
     html += "</ul>";
+
+    let totalCount = 0;
+    for (let i = 0; i < cart.length; i++) {
+        totalCount += cart[i].quantity;
+    }
     html += `<h2>전체 수량: ${totalCount}상자 </h2>`;
+
+    let totalPrice = 0;
+    for (let i = 0; i < cart.length; i++) {
+        totalPrice += cart[i].quantity * cart[i].price;
+    }
     html += `<h2>전체 가격: ${totalPrice}원</h2>`;
 
     return `
