@@ -71,16 +71,15 @@ const totalCalculator = (
     getValue: (item: Item) => number
 ) => {
     //전체 목록중 재고가 있는 상품만 getValue()를 실행하고 그 값을 모두 더한다.
-    //1. 재고가 있는 상품만 분류하기
-    //2. 분류된 상품들에 대해서 getValue 실행하기
-    //3. getValue 실행된 값 모두 더하기
-    let total = 0;
-    for (let i = 0; i < list.length; i++) {
-        if (list[i].outOfStock === false) {
-            total += getValue(list[i]);
-        }
-    }
-    return total;
+    return (
+        list
+            //1. 재고가 있는 상품만 분류하기
+            .filter((item) => item.outOfStock === false)
+            //2. 분류된 상품들에 대해서 getValue 실행하기
+            .map(getValue)
+            //3. getValue 실행된 값 모두 더하기
+            .reduce((total, value) => total + value, 0)
+    );
 };
 
 const totalCount = (list: Array<Item>): string => {
@@ -97,14 +96,13 @@ const totalPrice = (list: Array<Item>): string => {
 };
 
 const list = (list: Array<Item>) => {
-    let html = "<ul>";
-    for (let i = 0; i < list.length; i++) {
-        html += item(list[i]);
-    }
-    html += "</ul>";
-
-    return `
-    ${html}
+    return `<ul>
+    ${list
+        //1. 목록에 있는 아이템을 태그로 변경
+        .map(item)
+        //2. 태그의 목록을 모두 하나의 문자열로 연결
+        .reduce((tags, tag) => tags + tag, "")}
+    </ul>
     `;
 };
 
